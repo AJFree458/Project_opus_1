@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="./assets/script/jquery-3.4.1.min.js"></script>
+
+    <script type="text/javascript" src="./assets/script/geohash.js"></script>
+    <script type="text/javascript" src="./assets/script/moment.js"></script>
+    <script type="text/javascript" src="./assets/script/script.js"></script>
+
+</head>
+
+<body>
+
+
+
+    <img id="currLoc" src="./assets/img/location.jfif" width="25px;" height="25px;" onclick="GetCurrentLocation()"><img>
+
+    <div>Latitude: <span id="lat"></span></div>
+    <div>Longitude: <span id="lng"></span></div>
+    <div>GeoCode: <span id="geoHash"></span></div>
+    <button type="button" onclick="GetEvents(30)">Submit</button>
+
+
+    <div id="eventList"></div>
+</body>
+
+</html>
