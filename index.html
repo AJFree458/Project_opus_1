@@ -8,9 +8,9 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="assets/css/semantic/semantic.min.js"></script>
-    <!-- <script type="text/javascript" src="./assets/script/geohash.js"></script>
-    <script type="text/javascript" src="./assets/script/moment.js"></script> -->
-    <script type="text/javascript" src="./assets/script/script.js"></script>
+    <script type="text/javascript" src="./assets/script/geohash.js"></script>
+    <script type="text/javascript" src="./assets/script/moment.js"></script>
+    <!-- <script type="text/javascript" src="./assets/script/script.js"></script> -->
     <link href="assets/css/style.css" type="text/stylesheet" rel="stylesheet">
     <title>Event Finder</title>
 </head>
@@ -21,41 +21,46 @@
 
         <div class="ui huge message page grid">
 
-            <div class="three column row">
+            <h1 class="ui huge header head">Event Finder!</h1>
 
-                <div class="column">
+            <div class="column row">
 
-                    <h1 class="ui huge header head">Event Finder!</h1>
-
-                    <p>Enter your city/zip code for events near you!</p>
-
-                </div>
+                <p>Enter your city/zip code for events near you!</p>
 
                 <div class="row">
 
-                    <div class="four wide column">
+                    <div class="ui input">
+                        <input type="text" placeholder="Zip Code">
+                    </div>
+                    
+                    <div class="ui input">
+                        <input type="text" placeholder="City">
+                    </div>
+                    
+                    <div class="ui input">
+                        <input type="text" placeholder="State">
+                    </div>
 
-                        <div class="ui input">
-                            <input type="text" placeholder="Search...">
-                        </div>
+                </div>
 
-                        <button class="ui blue button">Current Location</button>
+                <br><br><br>
 
-                        <div class="ui blue animated button " tabindex="0">
+                <button class="ui blue button" id="currLoc">Current Location</button>
 
-                            <div class="visible content">Next</div>
+                <div class="ui blue animated button" tabindex="0">
 
-                            <div class="hidden content">
+                    <div class="visible content">Next</div>
 
-                                <i class="right arrow icon"></i>
-                            </div>
-                        </div>
+                    <div class="hidden content">
+
+                        <i class="right arrow icon"></i>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+    
+    <script type="text/javascript" src="./assets/script/script.js"></script>
 
 </body>
 
