@@ -10,6 +10,7 @@
     <script type="text/javascript" src="./assets/script/geohash.js"></script>
     <script type="text/javascript" src="./assets/script/moment.js"></script>
     <script type="text/javascript" src="./assets/script/script.js"></script>
+    <script src="assets/css/semantic/semantic.min.js"></script>
 
 </head>
 
@@ -24,8 +25,11 @@
     <div>GeoCode: <span id="geoHash"></span></div>
     <button type="button" onclick="GetEvents(30)">Submit</button>
 
+    <div>Event Table</div>
+    <div id="eventGrid" class="ui internally celled grid">
+    </div>
 
-    <div id="eventList"></div>
+
 </body>
 
 </html>
