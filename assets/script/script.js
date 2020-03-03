@@ -100,3 +100,18 @@ function RenderEvents() {
 function ShowModal() {
 
 }
+
+// Create a call for the Weather from the OpenWeatherMaps
+function grabWeather() {
+    var weatherAPIKey = "5a51f9cb85ab0cba2e91fb5674a4966d";
+
+    var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=35.308377899999996&lon=-80.73251789999999&appid=" + weatherAPIKey;
+
+    $.ajax({
+        url: weatherURL,
+        method: "GET",
+    }).then(function(forecast) {
+        console.log(forecast);
+    });
+
+}
