@@ -16,28 +16,43 @@
 </head>
 
 <body>
-    
-    <div class="ui fluid container">
-        
-        <div class="ui grid">
-            
-            <div class="four wide column">
-                <div class="ui input">
-                    <input type="text" placeholder="Search...">
+
+    <div class="ui container ui grid">
+
+        <div class="ui huge message page grid">
+
+            <div class="three column row">
+
+                <div class="column">
+
+                    <h1 class="ui huge header head">Event Finder!</h1>
+
+                    <p>Enter your city/zip code for events near you!</p>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="four wide column">
+
+                        <div class="ui input">
+                            <input type="text" placeholder="Search...">
+                        </div>
+
+                        <button class="ui blue button">Current Location</button>
+
+                        <div class="ui blue animated button " tabindex="0">
+
+                            <div class="visible content">Next</div>
+
+                            <div class="hidden content">
+
+                                <i class="right arrow icon"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <button class="ui icon button">
-                <i class="currLoc"><img src="assets/img/currentlocal.png" alt="current location"></i>
-            </button>
-
-            <div class="ui animated button " tabindex="0">
-                <div class="visible content">Next</div>
-                <div class="hidden content">
-                <i class="right arrow icon"></i>
-                </div>
-            </div>
-
         </div>
 
     </div>
