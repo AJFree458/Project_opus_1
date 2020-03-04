@@ -8,7 +8,8 @@ function InitializeScript() {
     if (navigator.geolocation) {
 
         $("#currLoc").show(); //Show Current Location Button
-        $("#currLoc").on("click", "GetCurrentLocation()");
+        $("#currLoc").on("click", GetCurrentLocation);
+        
     }
 
 }
