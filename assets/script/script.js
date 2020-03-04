@@ -9,6 +9,7 @@ function InitializeScript() {
 
         $("#currLoc").show(); //Show Current Location Button
         $("#currLoc").on("click", GetCurrentLocation);
+
     }
 
 }
