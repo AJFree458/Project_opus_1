@@ -1,4 +1,4 @@
-$(document).ready(InitializeScript());
+$(document).ready(InitializeScript);
 
 var geoHash;
 
@@ -9,7 +9,7 @@ function InitializeScript() {
 
         $("#currLoc").show(); //Show Current Location Button
         $("#currLoc").on("click", GetCurrentLocation);
-        
+
     }
 
 }
@@ -45,29 +45,83 @@ function loadEvents() {
 
 function GetManualLocation() {
 
-
 }
 
 
 
 
 function GetEvents(radius) {
-
-    var tmURI = CreateTicketMasterURI(30);
-
-    $.ajax({
-        url: tmURI,
-        method: "GET",
-    }).then(function(data) {
-        console.log(data);
-    })
-
-
-
-
+    CreateEventTable(radius);
 }
 
+function CreateEventTable(radius) {
+    radius = 30;
+    var tmURI = CreateTicketMasterURI(radius);
 
+    $.ajax({
+            url: tmURI,
+            method: "GET",
+        })
+        .then(function(response) {
+
+            var events = response._embedded.events;
+
+            var evtGrid = $("#evtGrid");
+
+            events.forEach(function(evt) {
+
+                // Create new row
+                var row = $("<div>");
+                row.addClass("row");
+
+                // Start Columns
+                var ImgCol = $("<div>");
+                ImgCol.addClass("three wide column");
+
+                var evtImg = $("<img>");
+                evtImg.attr("src", evt.images[5]);
+
+                ImgCol.append(evtImg);
+                row.append(ImgCol);
+
+                var evtDetailCol = $("<div>");
+                evtDetailCol.addClass("ten wide column");
+
+                var evtTitle = $("<h2>");
+                evtTitle.addClass("title");
+                evtTitle.text(evt.name);
+                evtDetailCol.append(evtTitle);
+
+                var evtStart = $("<div>");
+                evtStart.text("Start: " + EventDate(evt.dates.startDate, evt.dates.startTime));
+
+                var evtEnd = $("<div>");
+                evtEnd.text("End: " + EventDate(evt.dates.endDate, evt.dates.endTime));
+
+
+                evtDetailCol.append(evtStart);
+                evtDetailCol.append(evtEnd);
+
+                console.log("Event Row Added");
+                evtGrid.append(row);
+            });
+            // console.log(evts[0].name);
+            //  eventList.text(JSON.stringify(response));
+
+        })
+        .fail(function(error) {
+
+            console.log(error);
+        });
+    console.log("YOU SUCK!--------------");
+}
+
+function EventDate(date, time) {
+    var date = moment(date).format("dddd, MMMM Do, YYYY");
+    var time = moment(time, "HH").format("ha");
+
+    return date + " at " + time;
+}
 // ################################################################
 // Create API Call
 // ################################################################
