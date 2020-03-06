@@ -102,13 +102,11 @@
             }).then(function(currWeather) {
                 console.log(currWeather);
 
-                var weather = $("#weather");
                 var iconURL = "https://openweathermap.org/img/wn/" + currWeather.weather[0].icon + "@2x.png";
                 var iconImg = $("<img>").attr("src", iconURL);
-                weather.append(iconImg);
-                var tempDiv = $("<div>").html(currWeather.list[0].main.temp " &#8457;");
-                weather.append(tempDiv);
-                $("#condit").text(currWeather.list[0].weather[0].main);
+                $("#weatherIcon").append(iconImg);
+                $("#weatherTemp").text(currWeather.list[0].main.temp + " &#8457;");
+                $("#weatherCond").text(currWeather.list[0].weather[0].main);
             });
         }
     </script>
