@@ -24,6 +24,8 @@
             <h1 class="ui huge header eight wide column">Event Finder!</h1>
 
             <div class="ui celled grid">
+                
+                <!--Div for ticketmaster API-->
                 <div class="row">
                     <div class="three wide column">
                         <img class="image">
@@ -36,12 +38,18 @@
                     <div class="four wide column">
                         <p class="address">The address is blah blah blah</p>
                     </div>
-                    <div class="nine wide column">
+                    
+                    <!--Div for weather-->
+                    <div class="nine wide column" id="weather">
                         <p class="weather">The weather is blah blah blah</p>
+                        <div id="weatherIcon"></div>
+                        <div id="weatherTemp"></div>
+                        <div id="weatherCond"></div>
                     </div>
                 </div>
             </div>
 
+            <!--Div for buy now button-->
             <div class="ui primary animated button" tabindex="0">
                 <div class="visible content buyNow">Buy Now</div>
                 <div class="hidden content">
@@ -51,6 +59,7 @@
 
         </div>
 
+        <!--Modal for when we have ticketmaster linked-->
         <div class="ui modal">
             <i class="close icon"></i>
             <div class="header">
@@ -61,13 +70,6 @@
             </div>
         </div>
 
-    </div>
-
-    <div class="ui modal">
-        <div class="header">Header</div>
-        <div class="scrolling content">
-            <p>Very long content goes here</p>
-        </div>
     </div>
 
     <script>
