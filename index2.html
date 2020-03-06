@@ -26,7 +26,7 @@
             <div class="ui celled grid">
                 <div class="row">
                     <div class="three wide column">
-                        <img id="image">
+                        <img class="image">
                     </div>
                     <div class="thirteen wide column">
                         <p class="bio">The event is blah blah blah</p>
@@ -45,18 +45,43 @@
         </div>
 
         <div class="ui modal">
-            <i class="close icon"></i>    
+            <i class="close icon"></i>
             <div class="header">
-                    Hi there
-                </div>
-                <div class="content">
-                    <
-                </div>
+                Hi there
+            </div>
+            <div class="content">
+
+            </div>
         </div>
 
     </div>
+
+    <div class="ui modal">
+        <div class="header">Header</div>
+        <div class="scrolling content">
+            <p>Very long content goes here</p>
+        </div>
+    </div>
+
     <script>
-        $('.ui.modal').modal('show');
+        var keyWord = ""
+
+        console.log(keyWord);
+        
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com//discovery/v2/events.json?apikey=KJZmAQM4bhS920dy8zGsGnXAXWJGPGli&keyword=" + keyWord,
+            async: true,
+            dataType: "json",
+            success: function (json) {
+                console.log(json);
+                // Parse the response.
+                // Do other things.
+            },
+            error: function (xhr, status, err) {
+                // This time, we do not end up here!
+            }
+        });
     </script>
 
 </body>
