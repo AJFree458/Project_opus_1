@@ -133,7 +133,7 @@ function CreateTicketMasterURI(radius) {
     console.log(startDate);
 
     var TicketMasterApiKey = "KJZmAQM4bhS920dy8zGsGnXAXWJGPGli";
-    var url = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TicketMasterApiKey;
+    var url = "https://app.ticketmaster.com/discovery/v2/classifications/subtypes/KZFzBErXgnZfZ7vA6J.json?apikey=" + TicketMasterApiKey;
 
     var geoLoc = "&geoLoc=" + geoHash;
     var rad = "&radius=" + radius;
@@ -145,7 +145,21 @@ function CreateTicketMasterURI(radius) {
     console.log(URI);
     return URI
 }
-
+var keyWord = “”
+        $.ajax({
+            type: “GET”,
+            url: “https://app.ticketmaster.com//discovery/v2/events.json?apikey=KJZmAQM4bhS920dy8zGsGnXAXWJGPGli&keyword=” + keyWord,
+            async: true,
+            dataType: “json”,
+            success: function (json) {
+                console.log(json);
+                // Parse the response.
+                // Do other things.
+            },
+            error: function (xhr, status, err) {
+                // This time, we do not end up here!
+            }
+        });
 
 function RenderEvents() {
 
@@ -160,7 +174,7 @@ function ShowModal() {
 function grabWeather() {
     var weatherAPIKey = "5a51f9cb85ab0cba2e91fb5674a4966d";
 
-    var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=35.308377899999996&lon=-80.73251789999999&type=accurate&appid=" + weatherAPIKey + "&units=imperial";
+    var weatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=35.308377899999996&lon=-80.73251789999999&type=accurate&appid=" + weatherAPIKey + "&units=imperial";
 
     $.ajax({
         url: weatherURL,
@@ -168,7 +182,7 @@ function grabWeather() {
     }).then(function(forecast) {
         console.log(forecast);
 
-        $("#city").text(forecast.city.name);
+        var weather = $(
         $("#temp").text(forecast.list[0].main.temp);
         $("#condit").text(forecast.list[0].weather[0].main);
         $("#humid").text(forecast.list[0].main.humidity);
