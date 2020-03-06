@@ -17,6 +17,7 @@ function InitializeScript() {
 // Button is not available unless script found the capability.
 function GetCurrentLocation() {
 
+
     navigator.geolocation.getCurrentPosition(function(position) {
         var pos = {
             lat: position.coords.latitude,
@@ -36,37 +37,6 @@ function GetCurrentLocation() {
 
 
     });
-}
-
-//     var TicketMasterApiKey = "KJZmAQM4bhS920dy8zGsGnXAXWJGPGli";
-//     var api = "/discovery/v2/classifications.json?apikey=" + TicketMasterApiKey;
-//     var base = "https://app.ticketmaster.com/"
-
-//     var url = base + api;
-//     console.log(url);
-//     $.ajax({
-//         type: "GET",
-//         url: url,
-//         async: true,
-//         dataType: "json",
-//         success: function(json) {
-//             console.log(json);
-//             // Parse the response.
-//             // Do other things.
-//         },
-//         error: function(xhr, status, err) {
-//             // This time, we do not end up here!
-//         }
-//     });
-
-// }
-
-function loadEvents() {
-
-}
-
-function GetManualLocation() {
-
 }
 
 
@@ -158,9 +128,7 @@ function EventDate(date, time) {
 
 function CreateTicketMasterURI(radius) {
     var startDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
-    //console.log(endDate);
     var endDate = moment().add(30, 'days').format("YYYY-MM-DDTHH:mm:ssZ");
-    // console.log(startDate);
 
     var TicketMasterApiKey = "KJZmAQM4bhS920dy8zGsGnXAXWJGPGli";
     var url = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TicketMasterApiKey;
@@ -169,27 +137,15 @@ function CreateTicketMasterURI(radius) {
     var rad = "&radius=" + radius;
     var unit = "&unit=miles";
     var range = "&startDateTime=" + startDate + "&endDateTime=" + endDate;
-    var category = "&typeId=KZFzBErXgnZfZ7vA6J";
     var classificationId = "&classificationId=KZFzniwnSyZfZ7v7nJ"; //""&keyword=tool";
 
     URI = url + geoLoc + rad + unit + range + classificationId;
-    // var name = “_embedded.events.name”
-    //  var keyWord = "KZFzniwnSyZfZ7v7nJ";
-    //URI = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0&subTypeId=" + keyWord;
+
     console.log(URI);
     return URI;
-    //"https://app.ticketmaster.com/discovery/v2/events.json?&type=concert&subType=concert&apikey=7elxdku9GGG5k8j0Xm8KWdANDgecHMV0"
-}
-
-
-function RenderEvents() {
 
 }
 
-
-function ShowModal() {
-
-}
 
 // Create a call for the Weather from the OpenWeatherMaps
 function grabWeather() {
