@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/semantic/semantic.min.css">
+
     <script type="text/javascript" src="./assets/script/jquery-3.4.1.min.js"></script>
 
     <script type="text/javascript" src="./assets/script/geohash.js"></script>
     <script type="text/javascript" src="./assets/script/moment.js"></script>
+    <script src="./assets/css/semantic/semantic.min.js"></script>
     <script type="text/javascript" src="./assets/script/script.js"></script>
-    <script src="assets/css/semantic/semantic.min.js"></script>
+
 
 </head>
 
@@ -27,9 +30,24 @@
 
     <div>Event Table</div>
     <div id="eventGrid" class="ui internally celled grid">
+        <!-- <div class="three wide column"><img></div>
+        <div class="ten wide column">
+            <h2 class="title">Tour Gift Certificate</h2>
+            <div>Start: Monday, March 2nd, 2020 at Invalid date</div>
+            <div>End: Monday, March 2nd, 2020 at Invalid date</div>
+        </div>
+        <div class="three wide column"></div> -->
     </div>
 
 
-</body>
+    <div>City: <span id="city"></span></div>
+    <div>Temperature: <span id="temp"></span></div>
+    <div>Conditions: <span id="condit"></span></div>
+    <div>Humidity: <span id="humid"></span></div>
+    <button type="button" onclick="grabWeather()">Submit</button>
 
-</html>
+
+
+
+
+</body>
