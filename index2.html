@@ -24,7 +24,7 @@
             <h1 class="ui huge header eight wide column">Event Finder!</h1>
 
             <div class="ui celled grid">
-                
+
                 <!--Div for ticketmaster API-->
                 <div class="row">
                     <div class="six wide column">
@@ -38,7 +38,7 @@
                     <div class="eight wide column">
                         <p class="address">The address is blah blah blah</p>
                     </div>
-                    
+
                     <!--Div for weather-->
                     <div class="eight wide column" id="weather">
                         <p class="weather">The weather is blah blah blah</p>
@@ -53,9 +53,9 @@
             <div class="ui primary animated button" tabindex="0">
                 <div class="visible content buyNow">Buy Now</div>
                 <div class="hidden content">
-                  <i class="dollar sign icon"></i>
+                    <i class="dollar sign icon"></i>
                 </div>
-              </div>
+            </div>
 
         </div>
 
@@ -76,7 +76,7 @@
         var keyWord = ""
 
         console.log(keyWord);
-        
+
         $.ajax({
             type: "GET",
             url: "https://app.ticketmaster.com//discovery/v2/events.json?apikey=KJZmAQM4bhS920dy8zGsGnXAXWJGPGli&keyword=" + keyWord,
