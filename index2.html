@@ -91,6 +91,26 @@
                 // This time, we do not end up here!
             }
         });
+        function grabWeather() {
+            var weatherAPIKey = "5a51f9cb85ab0cba2e91fb5674a4966d";
+
+            var weatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=35.308377899999996&lon=-80.73251789999999&type=accurate&appid=" + weatherAPIKey + "&units=imperial";
+
+            $.ajax({
+                url: weatherURL,
+                method: "GET",
+            }).then(function(currWeather) {
+                console.log(currWeather);
+
+                var weather = $("#weather");
+                var iconURL = "https://openweathermap.org/img/wn/" + currWeather.weather[0].icon + "@2x.png";
+                var iconImg = $("<img>").attr("src", iconURL);
+                weather.append(iconImg);
+                var tempDiv = $("<div>").html(currWeather.list[0].main.temp " &#8457;");
+                weather.append(tempDiv);
+                $("#condit").text(currWeather.list[0].weather[0].main);
+            });
+        }
     </script>
 
 </body>
