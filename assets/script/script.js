@@ -1,4 +1,3 @@
-
 $(document).ready(InitializeScript);
 
 var geoHash;
@@ -150,8 +149,6 @@ function CreateTicketMasterURI(radius) {
 
 
 
-
-
 // Create a call for the Weather from the OpenWeatherMaps
 function grabWeather() {
     var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
@@ -161,7 +158,7 @@ function grabWeather() {
     $.ajax({
         url: weatherURL,
         method: "GET",
-    }).then(function (response) {
+    }).then(function(response) {
         console.log(response);
 
 
