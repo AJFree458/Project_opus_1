@@ -145,12 +145,12 @@ function CreateTicketMasterURI(radius) {
     console.log(URI);
     return URI
 }
-var keyWord = “”
+var keyWord = "";
         $.ajax({
-            type: “GET”,
-            url: “https://app.ticketmaster.com//discovery/v2/events.json?apikey=KJZmAQM4bhS920dy8zGsGnXAXWJGPGli&keyword=” + keyWord,
+            type: "GET",
+            url: "https://app.ticketmaster.com//discovery/v2/events.json?apikey=KJZmAQM4bhS920dy8zGsGnXAXWJGPGli&keyword=" + keyWord,
             async: true,
-            dataType: “json”,
+            dataType: "json",
             success: function (json) {
                 console.log(json);
                 // Parse the response.
@@ -188,5 +188,6 @@ function grabWeather() {
         $("#weatherIcon").append(iconImg);
         $("#weatherTemp").text(currWeather.list[0].main.temp + " &#8457;");
         $("#weatherCond").text(currWeather.list[0].weather[0].main);
+
     });
 }
