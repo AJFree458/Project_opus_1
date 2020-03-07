@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="assets/css/semantic/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="assets/css/semantic/semantic.min.js"></script>
+    <script type="text/javascript" src="./assets/script/geohash.js"></script>
+    <script type="text/javascript" src="./assets/script/moment.js"></script>
+    <!-- <script type="text/javascript" src="./assets/script/script.js"></script> -->
+    <link href="assets/css/style.css" type="text/css" rel="stylesheet">
+    <title>Event Finder</title>
+</head>
+
+<body>
+
+    <div class="ui container ui grid">
+
+        <div class="ui huge message page grid box">
+
+            <h1 class="ui huge header eight wide column">Event Finder!</h1>
+
+            <div class="ui celled grid">
+                
+                <!--Div for ticketmaster API-->
+                <div class="row">
+                    <div class="three wide column">
+                        <img class="image">
+                    </div>
+                    <div class="thirteen wide column">
+                        <p class="bio">The event is blah blah blah</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="four wide column">
+                        <p class="address">The address is blah blah blah</p>
+                    </div>
+                    
+                    <!--Div for weather-->
+                    <div class="nine wide column" id="weather">
+                        <p class="weather">The weather is blah blah blah</p>
+                        <div id="weatherIcon"></div>
+                        <div id="weatherTemp"></div>
+                        <div id="weatherCond"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Div for buy now button-->
+            <div class="ui primary animated button" tabindex="0">
+                <div class="visible content buyNow">Buy Now</div>
+                <div class="hidden content">
+                  <i class="dollar sign icon"></i>
+                </div>
+              </div>
+
+        </div>
+
+        <!--Modal for when we have ticketmaster linked-->
+        <div class="ui modal">
+            <i class="close icon"></i>
+            <div class="header">
+                Hi there
+            </div>
+            <div class="content">
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var keyWord = ""
+
+        console.log(keyWord);
+        
+        $.ajax({
+            type: "GET",
+            url: "https://app.ticketmaster.com//discovery/v2/events.json?apikey=KJZmAQM4bhS920dy8zGsGnXAXWJGPGli&keyword=" + keyWord,
+            async: true,
+            dataType: "json",
+            success: function (json) {
+                console.log(json);
+                // Parse the response.
+                // Do other things.
+            },
+            error: function (xhr, status, err) {
+                // This time, we do not end up here!
+            }
+        });
+        function grabWeather() {
+            var weatherAPIKey = "5a51f9cb85ab0cba2e91fb5674a4966d";
+
+            var weatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=35.308377899999996&lon=-80.73251789999999&type=accurate&appid=" + weatherAPIKey + "&units=imperial";
+
+            $.ajax({
+                url: weatherURL,
+                method: "GET",
+            }).then(function(currWeather) {
+                console.log(currWeather);
+
+                var weather = $("#weather");
+                var iconURL = "https://openweathermap.org/img/wn/" + currWeather.weather[0].icon + "@2x.png";
+                var iconImg = $("<img>").attr("src", iconURL);
+                weather.append(iconImg);
+                var tempDiv = $("<div>").html(currWeather.list[0].main.temp " &#8457;");
+                weather.append(tempDiv);
+                $("#condit").text(currWeather.list[0].weather[0].main);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
