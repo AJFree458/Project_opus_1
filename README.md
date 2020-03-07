@@ -20,8 +20,8 @@ then I will want a service to guide me.
 
 Contributors:
 
-* 
-* 
-* 
+* Ernest Correale
+* Ryan Guy
+* Arthur Freeman
 
 ## License
