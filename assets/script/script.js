@@ -186,8 +186,8 @@ function grabWeather() {
         var iconURL = "https://openweathermap.org/img/wn/" + currWeather.weather[0].icon + "@2x.png";
         var iconImg = $("<img>").attr("src", iconURL);
         $("#weatherIcon").append(iconImg);
-        $("#weatherTemp").text(currWeather.list[0].main.temp + " &#8457;");
-        $("#weatherCond").text(currWeather.list[0].weather[0].main);
+        $("#weatherTemp").html(response.main.temp + " &#8457;");
+        $("#weatherCond").text(response.weather[0].description);
 
     });
 }
