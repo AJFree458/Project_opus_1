@@ -12,5 +12,19 @@ body {
   }
 
   div {
-      float: inline-start;
+    float: inline-start;
+  }
+
+  #weatherTemp {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    font-size: 25px;
+  }
+
+  #weatherCond {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    font-size: 25px;
   }
