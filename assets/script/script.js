@@ -213,8 +213,6 @@ function CreateTicketMasterURI(lat, lng) {
 
 
 
-
-
 // Create a call for the Weather from the OpenWeatherMaps
 function grabWeather(lat, lng) {
     var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
@@ -224,7 +222,7 @@ function grabWeather(lat, lng) {
     var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=" + _Days + "&units=I&key=" + weatherAPIKey;
 
     var weatherElements = $(".weatherElement");
-    console.log(weatherElements[0].);
+    console.log(weatherElements[0]);
     $.ajax({
         url: weatherURL,
         method: "GET",
