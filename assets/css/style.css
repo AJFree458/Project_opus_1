@@ -1,32 +1,36 @@
-
-body {
-    background-color: whitesmoke;
-}
-
-.box {
-    width: auto;
-    border: 1px solid black;
-    padding: 150px;
-    margin: 30px;
-    display: flex;
-    flex-grow: 100;
-  }
-
-  div {
-    float: inline-start;
-  }
-
-  #weatherTemp {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-    font-size: 25px;
-  }
-
-  #weatherCond {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-    font-size: 25px;
-  }
-
+    body {
+        background-color: whitesmoke;
+        font-size: 12px;
+    }
+    
+    .venueName,
+    .eventDate {
+        font-weight: bold;
+    }
+    
+    .box {
+        width: auto;
+        border: 1px solid black;
+        padding: 150px;
+        margin: 30px;
+        display: flex;
+        flex-grow: 100;
+    }
+    
+    div {
+        float: inline-start;
+    }
+    
+    #weatherTemp {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        font-size: 25px;
+    }
+    
+    #weatherCond {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+        font-size: 25px;
+    }
