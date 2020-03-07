@@ -179,15 +179,15 @@ function grabWeather() {
     $.ajax({
         url: weatherURL,
         method: "GET",
-    }).then(function(forecast) {
-        console.log(forecast);
+    }).then(function(currWeather) {
+        console.log(currWeather);
 
-        //var weather = $(
-        $("#temp").text(forecast.list[0].main.temp);
-        $("#condit").text(forecast.list[0].weather[0].main);
-        $("#humid").text(forecast.list[0].main.humidity);
+        
+        var iconURL = "https://openweathermap.org/img/wn/" + currWeather.weather[0].icon + "@2x.png";
+        var iconImg = $("<img>").attr("src", iconURL);
+        $("#weatherIcon").append(iconImg);
+        $("#weatherTemp").text(currWeather.list[0].main.temp + " &#8457;");
+        $("#weatherCond").text(currWeather.list[0].weather[0].main);
 
     });
-
-
 }
