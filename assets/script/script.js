@@ -1,3 +1,4 @@
+
 $(document).ready(InitializeScript);
 
 var geoHash;
@@ -9,9 +10,7 @@ function InitializeScript() {
 
         $("#currLoc").show(); //Show Current Location Button
         $("#currLoc").on("click", GetCurrentLocation);
-
     }
-
 }
 
 
@@ -19,12 +18,13 @@ function InitializeScript() {
 // Button is not available unless script found the capability.
 function GetCurrentLocation() {
 
+
     navigator.geolocation.getCurrentPosition(function(position) {
         var pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         };
-        // console.log("GetCurrent location");
+
         console.log(pos);
         geoHash = encodeGeoHash(pos.lat, pos.lng);
         console.log(geoHash);
@@ -35,16 +35,9 @@ function GetCurrentLocation() {
 
 
         return pos;
+
+
     });
-
-}
-
-function loadEvents() {
-
-}
-
-function GetManualLocation() {
-
 }
 
 
@@ -55,22 +48,23 @@ function GetEvents(radius) {
 }
 
 function CreateEventTable(radius) {
-    radius = 30;
-    var tmURI = CreateTicketMasterURI(radius);
+    radius = 60;
+    var imgNumber = 0;
+    var URI = CreateTicketMasterURI(radius);
 
     $.ajax({
-            url: tmURI,
+            url: URI,
             method: "GET",
         })
         .then(function(response) {
-
+            console.log(response);
             var events = response._embedded.events;
 
-            var evtGrid = $("#evtGrid");
+            var evtGrid = $("#eventGrid");
+
 
             events.forEach(function(evt) {
-
-                // Create new row
+                //New Row
                 var row = $("<div>");
                 row.addClass("row");
 
@@ -79,7 +73,7 @@ function CreateEventTable(radius) {
                 ImgCol.addClass("three wide column");
 
                 var evtImg = $("<img>");
-                evtImg.attr("src", evt.images[5]);
+                evtImg.attr("src", evt.images[imgNumber].url);
 
                 ImgCol.append(evtImg);
                 row.append(ImgCol);
@@ -93,17 +87,24 @@ function CreateEventTable(radius) {
                 evtDetailCol.append(evtTitle);
 
                 var evtStart = $("<div>");
-                evtStart.text("Start: " + EventDate(evt.dates.startDate, evt.dates.startTime));
+                evtStart.text("Start: " + EventDate(evt.dates.start.localDate, evt.dates.start.localTime));
+                evtDetailCol.append(evtStart);
+
 
                 var evtEnd = $("<div>");
                 evtEnd.text("End: " + EventDate(evt.dates.endDate, evt.dates.endTime));
-
-
-                evtDetailCol.append(evtStart);
                 evtDetailCol.append(evtEnd);
 
-                console.log("Event Row Added");
+
+                row.append(evtDetailCol);
+
+                var endCol = $("<div>");
+                endCol.addClass("three wide column");
+                row.append(endCol);
+
+                //console.log("Event Row Added");
                 evtGrid.append(row);
+                //console.log(row);
             });
             // console.log(evts[0].name);
             //  eventList.text(JSON.stringify(response));
@@ -113,7 +114,7 @@ function CreateEventTable(radius) {
 
             console.log(error);
         });
-    console.log("YOU SUCK!--------------");
+
 }
 
 function EventDate(date, time) {
@@ -127,48 +128,29 @@ function EventDate(date, time) {
 // ################################################################
 
 function CreateTicketMasterURI(radius) {
-    var endDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
-    console.log(endDate);
-    var startDate = moment().add(10, 'days').format("YYYY-MM-DDTHH:mm:ssZ");
-    console.log(startDate);
+    var startDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
+    var endDate = moment().add(30, 'days').format("YYYY-MM-DDTHH:mm:ssZ");
 
     var TicketMasterApiKey = "KJZmAQM4bhS920dy8zGsGnXAXWJGPGli";
-    var url = "https://app.ticketmaster.com/discovery/v2/classifications/subtypes/KZFzBErXgnZfZ7vA6J.json?apikey=" + TicketMasterApiKey;
+    var url = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TicketMasterApiKey;
 
     var geoLoc = "&geoLoc=" + geoHash;
-    var rad = "&radius=" + radius;
+    var rad = "&radius=30"; // + radius;
     var unit = "&unit=miles";
     var range = "&startDateTime=" + startDate + "&endDateTime=" + endDate;
+    var classificationId = "&classificationId=KZFzniwnSyZfZ7v7nJ"; //""&keyword=tool";
 
-    URI = url + geoLoc + rad + unit + range;
+    URI = url + geoLoc + unit + range + classificationId;
 
     console.log(URI);
-    return URI
-}
-var keyWord = "";
-        $.ajax({
-            type: "GET",
-            url: "https://app.ticketmaster.com//discovery/v2/events.json?apikey=KJZmAQM4bhS920dy8zGsGnXAXWJGPGli&keyword=" + keyWord,
-            async: true,
-            dataType: "json",
-            success: function (json) {
-                console.log(json);
-                // Parse the response.
-                // Do other things.
-            },
-            error: function (xhr, status, err) {
-                // This time, we do not end up here!
-            }
-        });
-
-function RenderEvents() {
+    return URI;
 
 }
 
 
-function ShowModal() {
 
-}
+
+
 
 // Create a call for the Weather from the OpenWeatherMaps
 function grabWeather() {
@@ -189,4 +171,5 @@ function grabWeather() {
         $("#weatherTemp").html(response.data[0].temp + " &#8457;");
         $("#weatherCond").text(response.data[0].weather.description);
     });
+
 }
