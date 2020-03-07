@@ -91,9 +91,9 @@
             }
         });
         function grabWeather() {
-            var weatherAPIKey = "5a51f9cb85ab0cba2e91fb5674a4966d";
+            var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
 
-            var weatherURL = "https://api.openweathermap.org/data/2.5/weather?lat=35.308377899999996&lon=-80.73251789999999&type=accurate&appid=" + weatherAPIKey + "&units=imperial";
+            var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=35.308377899999996&lon=-80.73251789999999&days=7&units=I&key=" + weatherAPIKey;
 
             $.ajax({
                 url: weatherURL,
@@ -102,11 +102,11 @@
                 console.log(response);
 
 
-                var iconURL = "https://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
-                var iconImg = $("<img>").attr("src", iconURL);
+                var iconImage = response.data[0].weather.icon;
+                var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
                 $("#weatherIcon").append(iconImg);
-                $("#weatherTemp").html(response.main.temp + " &#8457;");
-                $("#weatherCond").text(response.weather[0].description);
+                $("#weatherTemp").html(response.data[0].temp + " &#8457;");
+                $("#weatherCond").text(response.data[0].weather.description);
             });
         }
         grabWeather();
