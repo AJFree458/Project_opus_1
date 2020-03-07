@@ -1,3 +1,4 @@
+
 $(document).ready(InitializeScript);
 
 var geoHash;
@@ -147,24 +148,28 @@ function CreateTicketMasterURI(radius) {
 }
 
 
+
+
+
+
 // Create a call for the Weather from the OpenWeatherMaps
 function grabWeather() {
-    var weatherAPIKey = "5a51f9cb85ab0cba2e91fb5674a4966d";
+    var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
 
-    var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=35.308377899999996&lon=-80.73251789999999&type=accurate&appid=" + weatherAPIKey + "&units=imperial";
+    var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=35.308377899999996&lon=-80.73251789999999&days=7&units=I&key=" + weatherAPIKey;
 
     $.ajax({
         url: weatherURL,
         method: "GET",
-    }).then(function(forecast) {
-        console.log(forecast);
+    }).then(function (response) {
+        console.log(response);
 
-        $("#city").text(forecast.city.name);
-        $("#temp").text(forecast.list[0].main.temp);
-        $("#condit").text(forecast.list[0].weather[0].main);
-        $("#humid").text(forecast.list[0].main.humidity);
 
+        var iconImage = response.data[0].weather.icon;
+        var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
+        $("#weatherIcon").append(iconImg);
+        $("#weatherTemp").html(response.data[0].temp + " &#8457;");
+        $("#weatherCond").text(response.data[0].weather.description);
     });
-
 
 }
