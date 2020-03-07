@@ -160,12 +160,8 @@ function CreateEventTable() {
                 weatherCol.addClass("left floated ui centered grid");
                 weatherCol.attr("weatherIDX", daysFromToday);
 
-                // var weatherIDX = today.add(1, 'days')
-
                 row.append(weatherCol); //Close subrow
-
                 evtGrid.append(row);
-                // console.log(row);
             });
             grabWeather(lat, lng);
 
