@@ -23,7 +23,7 @@ function InitializeScript() {
 function GetCurrentLocation() {
 
     console.log("Calling CurrentLocation");
-    navigator.geolocation.getCurrentPosition(function(position) {
+    navigator.geolocation.getCurrentPosition(function (position) {
         pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -58,16 +58,16 @@ function CreateEventTable() {
     var evtGrid = $("#eventGrid");
 
     $.ajax({
-            url: TicketMasterURI,
-            method: "GET",
-        })
-        .then(function(response) {
+        url: TicketMasterURI,
+        method: "GET",
+    })
+        .then(function (response) {
             console.log(response);
             var events = response._embedded.events; //All Events in response
 
 
 
-            events.forEach(function(evt) {
+            events.forEach(function (evt) {
 
 
                 var eventDate = moment(evt.dates.start.localDate);
@@ -77,12 +77,15 @@ function CreateEventTable() {
 
                 var venueNode = evt._embedded.venues[0];
                 var row = $("<div>");
-                row.addClass("row");
+                row.addClass("row left floated");
 
+                //Name for Event
+                var nameCol = $("<div>");
+                nameCol.addClass("left floated six wide column")
 
                 //Image Column
                 var imgCol = $("<div>");
-                imgCol.addClass("left floated five wide column");
+                imgCol.addClass("left floated six wide column");
 
 
                 var img = $("<img>");
@@ -91,7 +94,7 @@ function CreateEventTable() {
                 var eventDateDiv = $("<div>");
                 var eventDate = EventDate(evt.dates.start.localDate, evt.dates.start.localTime);
 
-                eventDateDiv.addClass("eventDate");
+                eventDateDiv.addClass("eventDate left floated");
                 eventDateDiv.text(eventDate);
 
                 imgCol.append(img);
@@ -124,10 +127,10 @@ function CreateEventTable() {
 
                 //Address Column
                 var addrCol = $("<div>");
-                addrCol.addClass("left floated ten wide column");
+                addrCol.addClass("left floated eight wide column");
 
                 var venueNameDiv = $("<div>");
-                venueNameDiv.addClass("venueName");
+                venueNameDiv.addClass("venueName left floated");
                 venueNameDiv.text(venueNode.name);
                 addrCol.append(venueNameDiv);
 
@@ -144,16 +147,22 @@ function CreateEventTable() {
                 //Weather Column
                 var weatherCol = $("<div>");
                 weatherCol.addClass("weatherElement");
-                weatherCol.addClass("left floated ui centered grid");
+                weatherCol.addClass("left floated ui centered");
                 weatherCol.attr("weatherIDX", daysFromToday);
 
                 row.append(weatherCol); //Close subrow
                 evtGrid.append(row);
+
+                //Buy Button
+                var buyBtn = $("<button>Buy Now</button>");
+                buyBtn.addClass("buyElement");
+                buyBtn.addClass("right floated ui primary button");
+                row.append(buyBtn);
             });
             grabWeather(lat, lng);
 
         })
-        .fail(function(error) {
+        .fail(function (error) {
 
             console.log(error);
         });
@@ -214,11 +223,11 @@ function grabWeather(lat, lng) {
     $.ajax({
         url: weatherURL,
         method: "GET",
-    }).then(function(response) {
+    }).then(function (response) {
 
         var weatherData = response.data;
 
-        $(".weatherElement").each(function(index, element) {
+        $(".weatherElement").each(function (index, element) {
             var weatherIndex = $(element).attr("weatherIDX");
 
             var weatherDiv = $("<div>");
