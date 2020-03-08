@@ -34,19 +34,13 @@ function GetCurrentLocation() {
 
 function GetAddrLocation() {
     console.log("GetAddrLocation");
+    GetCurrentLocation();
 }
 
 function getGeoHash(lat, lng) {
     geoHash = encodeGeoHash(lat, lng);
     return geoHash;
 }
-
-
-
-
-// function GetEvents(radius) {
-//     CreateEventTable(radius);
-// }
 
 function CreateEventTable() {
     radius = 30;
@@ -172,6 +166,8 @@ function EventDate(date, time) {
 
     return date + " at " + time;
 }
+
+
 // ################################################################
 // Create API Call
 // ################################################################
@@ -182,8 +178,6 @@ function CreateTicketMasterURI(lat, lng) {
 
     var currUrl = window.location.href;
     var geoHash = getGeoHash(urlParam(currUrl, "lat"), urlParam(currUrl, "lng"));
-    console.log(geoHash);
-
 
     var TicketMasterApiKey = "KJZmAQM4bhS920dy8zGsGnXAXWJGPGli";
     var url = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TicketMasterApiKey;
@@ -203,7 +197,6 @@ function CreateTicketMasterURI(lat, lng) {
 
 
 
-
 // Create a call for the Weather from the OpenWeatherMaps
 function grabWeather(lat, lng) {
     var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
@@ -217,7 +210,7 @@ function grabWeather(lat, lng) {
         url: weatherURL,
         method: "GET",
     }).then(function(response) {
-        // console.log(response);
+
         var weatherData = response.data;
 
         $(".weatherElement").each(function(index, element) {
@@ -226,13 +219,8 @@ function grabWeather(lat, lng) {
             var weatherDiv = $("<div>");
             weatherDiv.addClass("weatherCell");
 
-
             var weatherImageDiv = $("<div>");
-            //   var weatherTempDiv = $("<div>");
             var weatherCondDiv = $("<div>");
-
-
-
             var iconImage = weatherData[weatherIndex].weather.icon;
 
             var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
@@ -240,23 +228,13 @@ function grabWeather(lat, lng) {
 
             weatherDiv.append(iconImg);
 
-
-
             weatherImageDiv.append(iconImg);
             weatherDiv.append(weatherImageDiv);
-
-
-
-
-            // weatherTempDiv.html(weatherData[weatherIndex].temp + " &#8457;");
-            // weatherDiv.append(weatherTempDiv);
 
             weatherCondDiv.html(weatherData[weatherIndex].weather.description + " " + weatherData[weatherIndex].temp + " &#8457;");
             weatherDiv.append(weatherCondDiv);
 
             $(element).append(weatherDiv);
-
-
         });
 
     });
