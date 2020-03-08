@@ -33,7 +33,8 @@ function GetCurrentLocation() {
 }
 
 function GetAddrLocation() {
-    console.log("GetAddrLocation");
+    // console.log("GetAddrLocation");
+    GetCurrentLocation();
 }
 
 function getGeoHash(lat, lng) {
@@ -41,12 +42,6 @@ function getGeoHash(lat, lng) {
     return geoHash;
 }
 
-
-
-
-// function GetEvents(radius) {
-//     CreateEventTable(radius);
-// }
 
 function CreateEventTable() {
     radius = 30;
@@ -191,8 +186,6 @@ function CreateTicketMasterURI(lat, lng) {
 
     var currUrl = window.location.href;
     var geoHash = getGeoHash(urlParam(currUrl, "lat"), urlParam(currUrl, "lng"));
-    console.log(geoHash);
-
 
     var TicketMasterApiKey = "KJZmAQM4bhS920dy8zGsGnXAXWJGPGli";
     var url = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TicketMasterApiKey;
@@ -216,9 +209,6 @@ function CreateTicketMasterURI(lat, lng) {
 // Create a call for the Weather from the OpenWeatherMaps
 function grabWeather(lat, lng) {
     var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
-    //35.308377899999996&lon=-80.73251789999999
-    // var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=7&units=I&key=" + weatherAPIKey;
-
     var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=" + _Days + "&units=I&key=" + weatherAPIKey;
 
     var weatherElements = $(".weatherElement");
@@ -227,20 +217,8 @@ function grabWeather(lat, lng) {
         url: weatherURL,
         method: "GET",
     }).then(function(response) {
-        // console.log(response);
         var weatherData = response.data;
-
-
-
-
-
-        // var iconImage = response.data[0].weather.icon;
-        // var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
-        // $("#weatherIcon").append(iconImg);
-        // $("#weatherTemp").html(response.data[0].temp + " &#8457;");
-        // $("#weatherCond").text(response.data[0].weather.description);
     });
-
 }
 
 
