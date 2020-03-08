@@ -152,7 +152,7 @@ function CreateTicketMasterURI(radius) {
 
 
 
-// Create a call for the Weather from the OpenWeatherMaps
+// Create a call for the Weather from the WeatherBit.IO
 function grabWeather() {
     var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
 
