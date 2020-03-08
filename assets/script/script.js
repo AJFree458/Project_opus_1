@@ -202,7 +202,7 @@ function CreateTicketMasterURI(lat, lng) {
 
 
 // Create a call for the Weather from the WeatherBit.IO
-function grabWeather() {
+function grabWeather(lat, lng) {
 
     var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
     //35.308377899999996&lon=-80.73251789999999
