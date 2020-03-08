@@ -94,15 +94,11 @@ function CreateEventTable() {
                 var img = $("<img>");
                 img.attr("src", evt.images[imgNumber].url);
 
-
-
                 var eventDateDiv = $("<div>");
                 var eventDate = EventDate(evt.dates.start.localDate, evt.dates.start.localTime);
 
                 eventDateDiv.addClass("eventDate");
                 eventDateDiv.text(eventDate);
-
-
 
                 imgCol.append(img);
                 row.append(imgCol);
@@ -132,14 +128,9 @@ function CreateEventTable() {
                 var row = $("<div>");
                 row.addClass("row");
 
-                // //Nexted Address & weather row
-                // var nextedRow = $("<div>");
-                // nextedRow.addClass("row");
-
-
                 //Address Column
                 var addrCol = $("<div>");
-                addrCol.addClass("left floated eight wide column");
+                addrCol.addClass("left floated ten wide column");
 
                 var venueNameDiv = $("<div>");
                 venueNameDiv.addClass("venueName");
@@ -150,6 +141,8 @@ function CreateEventTable() {
                 venueAddrDiv.text(venueNode.address.line1 + " " + venueNode.city.name + ", " + venueNode.state.stateCode);
                 addrCol.append(venueAddrDiv);
 
+
+                //Add to the row
                 addrCol.append(venueNameDiv);
                 addrCol.append(venueAddrDiv);
                 row.append(addrCol);
@@ -164,8 +157,6 @@ function CreateEventTable() {
                 evtGrid.append(row);
             });
             grabWeather(lat, lng);
-
-
 
         })
         .fail(function(error) {
@@ -221,8 +212,7 @@ function grabWeather(lat, lng) {
 
     var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=" + _Days + "&units=I&key=" + weatherAPIKey;
 
-    var weatherElements = $(".weatherElement");
-    console.log(weatherElements[0]);
+
     $.ajax({
         url: weatherURL,
         method: "GET",
@@ -230,15 +220,45 @@ function grabWeather(lat, lng) {
         // console.log(response);
         var weatherData = response.data;
 
+        $(".weatherElement").each(function(index, element) {
+            var weatherIndex = $(element).attr("weatherIDX");
+
+            var weatherDiv = $("<div>");
+            weatherDiv.addClass("weatherCell");
+
+
+            var weatherImageDiv = $("<div>");
+            //   var weatherTempDiv = $("<div>");
+            var weatherCondDiv = $("<div>");
+
+
+
+            var iconImage = weatherData[weatherIndex].weather.icon;
+
+            var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
+            iconImg.addClass("weatherImage");
+
+            weatherDiv.append(iconImg);
+
+
+
+            weatherImageDiv.append(iconImg);
+            weatherDiv.append(weatherImageDiv);
 
 
 
 
-        // var iconImage = response.data[0].weather.icon;
-        // var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
-        // $("#weatherIcon").append(iconImg);
-        // $("#weatherTemp").html(response.data[0].temp + " &#8457;");
-        // $("#weatherCond").text(response.data[0].weather.description);
+            // weatherTempDiv.html(weatherData[weatherIndex].temp + " &#8457;");
+            // weatherDiv.append(weatherTempDiv);
+
+            weatherCondDiv.html(weatherData[weatherIndex].weather.description + " " + weatherData[weatherIndex].temp + " &#8457;");
+            weatherDiv.append(weatherCondDiv);
+
+            $(element).append(weatherDiv);
+
+
+        });
+
     });
 
 }
