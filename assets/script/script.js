@@ -1,7 +1,11 @@
+var _pos = {
+    lat: "",
+    lng: ""
+};
+var _Days = "6"; //Number of days to query zero index!
+
 
 $(document).ready(InitializeScript);
-
-var geoHash;
 
 // controls program flow
 function InitializeScript() {
@@ -18,96 +22,135 @@ function InitializeScript() {
 // Button is not available unless script found the capability.
 function GetCurrentLocation() {
 
-
+    console.log("Calling CurrentLocation");
     navigator.geolocation.getCurrentPosition(function(position) {
-        var pos = {
+        pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
         };
-
-        console.log(pos);
-        geoHash = encodeGeoHash(pos.lat, pos.lng);
-        console.log(geoHash);
-
-        $("#geoHash").text(geoHash);
-        $("#lat").text(pos.lat);
-        $("#lng").text(pos.lng);
-
-
-        return pos;
-
-
+        window.location.href = "index2.html?lat=" + pos.lat + "&lng=" + pos.lng;
     });
 }
 
-
-
-
-function GetEvents(radius) {
-    CreateEventTable(radius);
+function GetAddrLocation() {
+    console.log("GetAddrLocation");
+    GetCurrentLocation();
 }
 
-function CreateEventTable(radius) {
-    radius = 60;
+function getGeoHash(lat, lng) {
+    geoHash = encodeGeoHash(lat, lng);
+    return geoHash;
+}
+
+function CreateEventTable() {
+    radius = 30;
     var imgNumber = 0;
-    var URI = CreateTicketMasterURI(radius);
+
+    var today = moment();
+
+    // Get the location params from URL
+    var currUrl = window.location.href;
+    var lat = urlParam(currUrl, "lat");
+    var lng = urlParam(currUrl, "lng");
+
+    var TicketMasterURI = CreateTicketMasterURI(lat, lng);
+
+    var evtGrid = $("#eventGrid");
 
     $.ajax({
-            url: URI,
+            url: TicketMasterURI,
             method: "GET",
         })
         .then(function(response) {
             console.log(response);
-            var events = response._embedded.events;
+            var events = response._embedded.events; //All Events in response
 
-            var evtGrid = $("#eventGrid");
 
 
             events.forEach(function(evt) {
-                //New Row
+
+
+                var eventDate = moment(evt.dates.start.localDate);
+
+                //Used for weather day forcast
+                var daysFromToday = eventDate.diff(today, 'days');
+
+                var venueNode = evt._embedded.venues[0];
                 var row = $("<div>");
                 row.addClass("row");
 
-                // Start Columns
-                var ImgCol = $("<div>");
-                ImgCol.addClass("three wide column");
 
-                var evtImg = $("<img>");
-                evtImg.attr("src", evt.images[imgNumber].url);
-
-                ImgCol.append(evtImg);
-                row.append(ImgCol);
-
-                var evtDetailCol = $("<div>");
-                evtDetailCol.addClass("ten wide column");
-
-                var evtTitle = $("<h2>");
-                evtTitle.addClass("title");
-                evtTitle.text(evt.name);
-                evtDetailCol.append(evtTitle);
-
-                var evtStart = $("<div>");
-                evtStart.text("Start: " + EventDate(evt.dates.start.localDate, evt.dates.start.localTime));
-                evtDetailCol.append(evtStart);
+                //Image Column
+                var imgCol = $("<div>");
+                imgCol.addClass("left floated five wide column");
 
 
-                var evtEnd = $("<div>");
-                evtEnd.text("End: " + EventDate(evt.dates.endDate, evt.dates.endTime));
-                evtDetailCol.append(evtEnd);
+                var img = $("<img>");
+                img.attr("src", evt.images[imgNumber].url);
+
+                var eventDateDiv = $("<div>");
+                var eventDate = EventDate(evt.dates.start.localDate, evt.dates.start.localTime);
+
+                eventDateDiv.addClass("eventDate");
+                eventDateDiv.text(eventDate);
+
+                imgCol.append(img);
+                row.append(imgCol);
 
 
-                row.append(evtDetailCol);
+                // Information Bio Column
+                var bioCol = $("<div>");
+                bioCol.addClass("left floated ten wide column");
 
-                var endCol = $("<div>");
-                endCol.addClass("three wide column");
-                row.append(endCol);
+                bioCol.append(eventDateDiv);
+                var bioText = $("<p>");
+                bioText.addClass("bio");
 
-                //console.log("Event Row Added");
+                bioText.text(evt.info);
+
+                bioCol.append(bioText);
+                row.append(bioCol);
+
+                // *******************************
+                // End of First Row
+                //********************************
                 evtGrid.append(row);
-                //console.log(row);
+
+                // *******************************
+                // Start Second row for event item
+                // *******************************
+                var row = $("<div>");
+                row.addClass("row");
+
+                //Address Column
+                var addrCol = $("<div>");
+                addrCol.addClass("left floated ten wide column");
+
+                var venueNameDiv = $("<div>");
+                venueNameDiv.addClass("venueName");
+                venueNameDiv.text(venueNode.name);
+                addrCol.append(venueNameDiv);
+
+                var venueAddrDiv = $("<div>");
+                venueAddrDiv.text(venueNode.address.line1 + " " + venueNode.city.name + ", " + venueNode.state.stateCode);
+                addrCol.append(venueAddrDiv);
+
+
+                //Add to the row
+                addrCol.append(venueNameDiv);
+                addrCol.append(venueAddrDiv);
+                row.append(addrCol);
+
+                //Weather Column
+                var weatherCol = $("<div>");
+                weatherCol.addClass("weatherElement");
+                weatherCol.addClass("left floated ui centered grid");
+                weatherCol.attr("weatherIDX", daysFromToday);
+
+                row.append(weatherCol); //Close subrow
+                evtGrid.append(row);
             });
-            // console.log(evts[0].name);
-            //  eventList.text(JSON.stringify(response));
+            grabWeather(lat, lng);
 
         })
         .fail(function(error) {
@@ -123,26 +166,31 @@ function EventDate(date, time) {
 
     return date + " at " + time;
 }
+
+
 // ################################################################
 // Create API Call
 // ################################################################
 
-function CreateTicketMasterURI(radius) {
+function CreateTicketMasterURI(lat, lng) {
     var startDate = moment().format("YYYY-MM-DDTHH:mm:ssZ");
-    var endDate = moment().add(30, 'days').format("YYYY-MM-DDTHH:mm:ssZ");
+    var endDate = moment().add(_Days, 'days').format("YYYY-MM-DDTHH:mm:ssZ");
+
+    var currUrl = window.location.href;
+    var geoHash = getGeoHash(urlParam(currUrl, "lat"), urlParam(currUrl, "lng"));
 
     var TicketMasterApiKey = "KJZmAQM4bhS920dy8zGsGnXAXWJGPGli";
     var url = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TicketMasterApiKey;
 
-    var geoLoc = "&geoLoc=" + geoHash;
+    var latLon = "&latlong=" + lat + "," + lng; //35.2312612,-81.2460958=" + geoHash;
     var rad = "&radius=30"; // + radius;
     var unit = "&unit=miles";
-    var range = "&startDateTime=" + startDate + "&endDateTime=" + endDate;
+    var dateRange = "&startDateTime=" + startDate + "&endDateTime=" + endDate;
+    var orderBy = "&sort=date,asc";
     var classificationId = "&classificationId=KZFzniwnSyZfZ7v7nJ"; //""&keyword=tool";
 
-    URI = url + geoLoc + unit + range + classificationId;
+    URI = url + latLon + dateRange + rad + unit + classificationId + orderBy;
 
-    console.log(URI);
     return URI;
 
 }
@@ -152,24 +200,58 @@ function CreateTicketMasterURI(radius) {
 
 
 
+
 // Create a call for the Weather from the WeatherBit.IO
 function grabWeather() {
-    var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
 
-    var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=35.308377899999996&lon=-80.73251789999999&days=7&units=I&key=" + weatherAPIKey;
+    var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
+    //35.308377899999996&lon=-80.73251789999999
+    // var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=7&units=I&key=" + weatherAPIKey;
+
+    var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=" + _Days + "&units=I&key=" + weatherAPIKey;
+
 
     $.ajax({
         url: weatherURL,
         method: "GET",
-    }).then(function (response) {
-        console.log(response);
+    }).then(function(response) {
 
+        var weatherData = response.data;
 
-        var iconImage = response.data[0].weather.icon;
-        var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
-        $("#weatherIcon").append(iconImg);
-        $("#weatherTemp").html(response.data[0].temp + " &#8457;");
-        $("#weatherCond").text(response.data[0].weather.description);
+        $(".weatherElement").each(function(index, element) {
+            var weatherIndex = $(element).attr("weatherIDX");
+
+            var weatherDiv = $("<div>");
+            weatherDiv.addClass("weatherCell");
+
+            var weatherImageDiv = $("<div>");
+            var weatherCondDiv = $("<div>");
+            var iconImage = weatherData[weatherIndex].weather.icon;
+
+            var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
+            iconImg.addClass("weatherImage");
+
+            weatherDiv.append(iconImg);
+
+            weatherImageDiv.append(iconImg);
+            weatherDiv.append(weatherImageDiv);
+
+            weatherCondDiv.html(weatherData[weatherIndex].weather.description + " " + weatherData[weatherIndex].temp + " &#8457;");
+            weatherDiv.append(weatherCondDiv);
+
+            $(element).append(weatherDiv);
+        });
+
     });
 
+}
+
+
+function urlParam(URL, ParmName) {
+    var results = new RegExp('[\?&]' + ParmName + '=([^&#]*)').exec(URL);
+    if (results == null) {
+        return null;
+    } else {
+        return decodeURI(results[1]) || 0;
+    }
 }

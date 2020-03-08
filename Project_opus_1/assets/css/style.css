@@ -3,16 +3,6 @@
         font-size: 12px;
     }
     
-    .weatherImage {
-        height: 40px;
-    }
-    
-    .weatherCell {
-        margin-top: 25px;
-        vertical-align: bottom;
-        font-size: 12px;
-    }
-    
     .venueName,
     .eventDate {
         font-weight: bold;
