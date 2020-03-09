@@ -23,7 +23,7 @@ function InitializeScript() {
 function GetCurrentLocation() {
 
     console.log("Calling CurrentLocation");
-    navigator.geolocation.getCurrentPosition(function (position) {
+    navigator.geolocation.getCurrentPosition(function(position) {
         pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -58,61 +58,99 @@ function CreateEventTable() {
     var evtGrid = $("#eventGrid");
 
     $.ajax({
-        url: TicketMasterURI,
-        method: "GET",
-    })
-        .then(function (response) {
+            url: TicketMasterURI,
+            method: "GET",
+        })
+        .then(function(response) {
             console.log(response);
             var events = response._embedded.events; //All Events in response
 
 
 
-            events.forEach(function (evt) {
+            events.forEach(function(evt) {
 
 
                 var eventDate = moment(evt.dates.start.localDate);
 
-                //Used for weather day forcast
+                // Used for weather day forcast
                 var daysFromToday = eventDate.diff(today, 'days');
+                // ***************************
+                //    Row 1
+                // ***************************
 
                 var venueNode = evt._embedded.venues[0];
                 var row = $("<div>");
                 row.addClass("row left floated");
 
                 //Name for Event
-                var nameCol = $("<div>");
-                nameCol.addClass("left floated six wide column")
-
-                //Image Column
-                var imgCol = $("<div>");
-                imgCol.addClass("left floated six wide column");
+                var evtTitleDiv = $("<div>");
+                evtTitleDiv.addClass("left floated six wide column");
+                evtTitleDiv.text(evt.name);
+                evtTitleDiv.addClass("eventName");
 
 
-                var img = $("<img>");
-                img.attr("src", evt.images[imgNumber].url);
+                var evtImage = $("<img>");
+                evtImage.attr("src", evt.images[imgNumber].url);
 
-                var eventDateDiv = $("<div>");
-                var eventDate = EventDate(evt.dates.start.localDate, evt.dates.start.localTime);
+                evtTitleDiv.append(evtImage);
+                row.append(evtTitleDiv);
 
-                eventDateDiv.addClass("eventDate left floated");
-                eventDateDiv.text(eventDate);
+                // ROW-1 Column2
+                var infoCol = $("<div>");
+                infoCol.addClass("left floated ten wide column");
 
-                imgCol.append(img);
-                row.append(imgCol);
+                //Insert row inside info cell for date and weather
+                var infoHdrRow = $("<div>");
+                infoHdrRow.addClass("row");
 
+                //  create Header Row column-1  (Col-1, row-1)
+                var evtDateCell = $("<div>");
+                evtDateCell.addClass("left floated ten wide column");
+                evtDateCell.addClass("eventDate");
+                evtDateCell.text(EventDate(evt.dates.start.localDate, evt.dates.start.localTime));
+
+                //Weather Column Row1, col-2
+                var weatherCell = $("<div>");
+                weatherCell.addClass("weatherElement weatherCell left floated six wide column");
+                weatherCell.attr("weatherIDX", daysFromToday);
+
+
+                infoHdrRow.append(evtDateCell);
+                infoHdrRow.append(weatherCell); //Close subrow
+
+                infoCol.append(infoHdrRow);
+
+                // row.append(evtDateCell);
+
+                //weatherElement
+
+                //  infoHdrRow.append(eventDateDiv);
+
+                // eventDateDiv.addClass("eventDate left floated");
+                // eventDateDiv.text(eventDate);
 
                 // Information Bio Column
-                var bioCol = $("<div>");
-                bioCol.addClass("left floated ten wide column");
 
-                bioCol.append(eventDateDiv);
-                var bioText = $("<p>");
-                bioText.addClass("bio");
 
-                bioText.text(evt.info);
 
-                bioCol.append(bioText);
-                row.append(bioCol);
+
+
+
+
+                // bioCol.append(eventDateDiv);
+                var infoDetailsRow = $("<div>");
+                infoDetailsRow.addClass("row");
+
+                //  var detailsCell = $("<div>");
+                var detailText = $("<p>");
+                detailText.addClass("bio");
+                detailText.text(evt.info);
+
+                // detailsCell.append(detailText);
+                infoDetailsRow.append(detailText);
+                infoCol.append(infoDetailsRow);
+
+                row.append(infoCol);
 
                 // *******************************
                 // End of First Row
@@ -135,6 +173,7 @@ function CreateEventTable() {
                 addrCol.append(venueNameDiv);
 
                 var venueAddrDiv = $("<div>");
+                venueAddrDiv.addClass("eventAddr");
                 venueAddrDiv.text(venueNode.address.line1 + " " + venueNode.city.name + ", " + venueNode.state.stateCode);
                 addrCol.append(venueAddrDiv);
 
@@ -144,25 +183,26 @@ function CreateEventTable() {
                 addrCol.append(venueAddrDiv);
                 row.append(addrCol);
 
-                //Weather Column
-                var weatherCol = $("<div>");
-                weatherCol.addClass("weatherElement");
-                weatherCol.addClass("left floated ui centered");
-                weatherCol.attr("weatherIDX", daysFromToday);
 
-                row.append(weatherCol); //Close subrow
-                evtGrid.append(row);
 
                 //Buy Button
-                var buyBtn = $("<button>Buy Now</button>");
-                buyBtn.addClass("buyElement");
-                buyBtn.addClass("right floated ui primary button");
-                row.append(buyBtn);
+                var buyNowLink = $("<a>");
+                buyNowLink.attr("href", evt.url);
+
+                var buyNowBtn = $("<button>");
+                buyNowBtn.text("Buy Now");
+                buyNowBtn.addClass("buyElement right floated ui primary button");
+
+                buyNowLink.append(buyNowBtn);
+                row.append(buyNowLink);
+
+                evtGrid.append(row);
+
             });
             grabWeather(lat, lng);
 
         })
-        .fail(function (error) {
+        .fail(function(error) {
 
             console.log(error);
         });
@@ -223,30 +263,33 @@ function grabWeather(lat, lng) {
     $.ajax({
         url: weatherURL,
         method: "GET",
-    }).then(function (response) {
+    }).then(function(response) {
 
         var weatherData = response.data;
 
-        $(".weatherElement").each(function (index, element) {
+        $(".weatherElement").each(function(index, element) {
             var weatherIndex = $(element).attr("weatherIDX");
 
             var weatherDiv = $("<div>");
             weatherDiv.addClass("weatherCell");
 
-            var weatherImageDiv = $("<div>");
-            var weatherCondDiv = $("<div>");
+            // var weatherImageDiv = $("<div>");
+            //  var weatherCondDiv = $("<div>");
             var iconImage = weatherData[weatherIndex].weather.icon;
 
             var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
             iconImg.addClass("weatherImage");
-
             weatherDiv.append(iconImg);
 
-            weatherImageDiv.append(iconImg);
-            weatherDiv.append(weatherImageDiv);
-
+            var weatherCondDiv = $("<br>");
             weatherCondDiv.html(weatherData[weatherIndex].weather.description + " " + weatherData[weatherIndex].temp + " &#8457;");
             weatherDiv.append(weatherCondDiv);
+
+            // weatherImageDiv.append(iconImg);
+            //  weatherDiv.append(weatherImageDiv);
+            // weatherDiv.append()
+
+
 
             $(element).append(weatherDiv);
         });
