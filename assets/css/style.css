@@ -3,19 +3,34 @@
         font-size: 12px;
     }
     
+    .eventName {
+        font-weight: bolder;
+        font-size: larger;
+    }
+    
+    .eventAddr {
+        font-size: smaller;
+    }
+    
     .weatherImage {
         height: 40px;
     }
     
     .weatherCell {
-        margin-top: 25px;
-        vertical-align: bottom;
+        /* margin-top: 25px; */
+        /* vertical-align: bottom; */
         font-size: 12px;
+        /* float: right; */
+        /* float: right; */
     }
     
     .venueName,
     .eventDate {
         font-weight: bold;
+    }
+    
+    .eventDate {
+        /* float: left; */
     }
     
     .box {
@@ -44,7 +59,7 @@
         padding: 10px;
         font-size: 25px;
     }
-
+    
     #buyElement {
         padding: 30px;
         margin: 50px;
