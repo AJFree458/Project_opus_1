@@ -79,10 +79,6 @@ function CreateEventTable() {
                 var row = $("<div>");
                 row.addClass("row left floated");
 
-                //Name for Event
-                var nameCol = $("<div>");
-                nameCol.addClass("left floated six wide column")
-
                 //Image Column
                 var imgCol = $("<div>");
                 imgCol.addClass("left floated six wide column");
@@ -99,7 +95,6 @@ function CreateEventTable() {
 
                 imgCol.append(img);
                 row.append(imgCol);
-
 
                 // Information Bio Column
                 var bioCol = $("<div>");
