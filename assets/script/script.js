@@ -82,33 +82,6 @@ function CreateEventTable() {
                 var row = $("<div>");
                 row.addClass("row left floated");
 
-                //Name for Event
-                var evtTitleDiv = $("<div>");
-                evtTitleDiv.addClass("left floated six wide column");
-                evtTitleDiv.text(evt.name);
-                evtTitleDiv.addClass("eventName");
-
-
-                var evtImage = $("<img>");
-                evtImage.attr("src", evt.images[imgNumber].url);
-
-                evtTitleDiv.append(evtImage);
-                row.append(evtTitleDiv);
-
-                // ROW-1 Column2
-                var infoCol = $("<div>");
-                infoCol.addClass("left floated ten wide column");
-
-                //Insert row inside info cell for date and weather
-                var infoHdrRow = $("<div>");
-                infoHdrRow.addClass("row");
-
-                //  create Header Row column-1  (Col-1, row-1)
-                var evtDateCell = $("<div>");
-                evtDateCell.addClass("left floated ten wide column");
-                evtDateCell.addClass("eventDate");
-                evtDateCell.text(EventDate(evt.dates.start.localDate, evt.dates.start.localTime));
-
                 //Weather Column Row1, col-2
                 var weatherCell = $("<div>");
                 weatherCell.addClass("weatherElement weatherCell left floated six wide column");
@@ -121,13 +94,6 @@ function CreateEventTable() {
                 infoCol.append(infoHdrRow);
 
                 // row.append(evtDateCell);
-
-                //weatherElement
-
-                //  infoHdrRow.append(eventDateDiv);
-
-                // eventDateDiv.addClass("eventDate left floated");
-                // eventDateDiv.text(eventDate);
 
                 // Information Bio Column
 
