@@ -2,9 +2,11 @@
 
 ## Description
 
-Looking for events over a seven day period? Need to know what the weather is like on that day? This project aims to address these.
+This project is an application for finding events, specifically concerts, within a certain area.
 
-Using geolocation, or a user input, you can search for events within a certain area. The weather is given from the same input, so that the user has current conditions and forecast.
+Using geolocation, this application queries a third-party API to search within a certain radius and time period for concert events. This application then uses the same geolocation information to search for the weather, and then displays the temperature and conditions for the day of the event.
+
+This application utilizes jQuery, moment.js, and geohash.js to power this application. The CSS framework used is the Semantic UI. The third-party API's used are TicketMaster and Weatherbit.io.
 
 ## User Story
 
