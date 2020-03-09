@@ -17,6 +17,12 @@ then I will want a service to guide me.
 ## Usage
 
 
+## Github links
+
+[Github Deployment](https://ajfree458.github.io/Project_opus_1/)
+
+[Github Repo](https://github.com/AJFree458/Project_opus_1)
+
 
 ## Credits
 
