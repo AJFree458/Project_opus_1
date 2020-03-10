@@ -3,6 +3,11 @@
         font-size: 12px;
     }
     
+    .bio {
+        font-size: smaller;
+        padding-top: 10px
+    }
+    
     .eventName {
         font-weight: bolder;
         font-size: larger;
@@ -17,20 +22,20 @@
     }
     
     .weatherCell {
-        /* margin-top: 25px; */
-        /* vertical-align: bottom; */
         font-size: 12px;
-        /* float: right; */
-        /* float: right; */
+        margin: 0px;
     }
     
     .venueName,
     .eventDate {
         font-weight: bold;
+        vertical-align: bottom;
     }
     
-    .eventDate {
-        /* float: left; */
+    .detailGrid {
+        border: none;
+        margin: 0px;
+        padding: 0px;
     }
     
     .box {
@@ -41,10 +46,9 @@
         display: flex;
         flex-grow: 100;
     }
-    
-    div {
+    /* div {
         float: inline-start;
-    }
+    } */
     
     #weatherTemp {
         margin: auto;
@@ -60,7 +64,6 @@
         font-size: 25px;
     }
     
-    #buyElement {
-        padding: 30px;
-        margin: 50px;
+    .buyBtn {
+        padding: 22px;
     }

@@ -74,60 +74,92 @@ function CreateEventTable() {
 
                 // Used for weather day forcast
                 var daysFromToday = eventDate.diff(today, 'days');
-                // ***************************
-                //    Row 1
-                // ***************************
-
                 var venueNode = evt._embedded.venues[0];
+
+
+                //    Row 1
                 var row = $("<div>");
                 row.addClass("row left floated");
 
+
+                // ========================
+                // Start row 1 column 1
+                // ========================
+
+                //event title
+                var evtTitleDiv = $("<div>");
+                evtTitleDiv.addClass("left floated six wide column");
+                evtTitleDiv.addClass("eventName");
+                evtTitleDiv.text(evt.name);
+
+                //Event image
+                var evtImage = $("<img>");
+                evtImage.attr("src", evt.images[imgNumber].url);
+                evtTitleDiv.append(evtImage);
+
+                //Add to event row
+                row.append(evtTitleDiv);
+
+
+                // ========================
+                // Start row 1 column 2
+                // ========================
+                var infoCol = $("<div>");
+                infoCol.addClass("left floated ten wide column");
+
+                // Insert grid inside row 1 col 2
+                //Insert row inside info cell for date and weather
+                var detailGrid = $("<div>");
+                detailGrid.addClass("detailGrid ui grid");
+
+                var infoHdrRow = $("<div>");
+                infoHdrRow.addClass("row");
+
+                //  create Header Row column-1  (Col-1, row-1)
+                var evtDateCell = $("<div>");
+                evtDateCell.addClass("left floated ten wide column");
+                evtDateCell.addClass("eventDate");
+                evtDateCell.text(EventDate(evt.dates.start.localDate, evt.dates.start.localTime));
+                infoHdrRow.append(evtDateCell);
+
+
                 //Weather Column Row1, col-2
                 var weatherCell = $("<div>");
-                weatherCell.addClass("weatherElement weatherCell left floated six wide column");
+                weatherCell.addClass("weatherElement weatherCell right five wide column");
                 weatherCell.attr("weatherIDX", daysFromToday);
+                infoHdrRow.append(weatherCell);
 
 
-                infoHdrRow.append(evtDateCell);
-                infoHdrRow.append(weatherCell); //Close subrow
-
-                infoCol.append(infoHdrRow);
-
-                // row.append(evtDateCell);
-
-                // Information Bio Column
+                detailGrid.append(infoHdrRow);
+                infoCol.append(detailGrid);
 
 
 
-
-
-
-
-                // bioCol.append(eventDateDiv);
                 var infoDetailsRow = $("<div>");
                 infoDetailsRow.addClass("row");
 
                 //  var detailsCell = $("<div>");
                 var detailText = $("<p>");
                 detailText.addClass("bio");
-                detailText.text(evt.info);
+                if (evt.info) {
+                    detailText.text(evt.info);
+                } else {
+                    detailText.text("No Detail Informaiton Available");
+                }
 
                 // detailsCell.append(detailText);
                 infoDetailsRow.append(detailText);
                 infoCol.append(infoDetailsRow);
 
                 row.append(infoCol);
-
-                // *******************************
-                // End of First Row
-                //********************************
                 evtGrid.append(row);
 
-                // *******************************
-                // Start Second row for event item
-                // *******************************
+                // *************************************************
+                // Start Second row for event item Detail
+                // *************************************************
                 var row = $("<div>");
                 row.addClass("row");
+                row.attr("style", "padding-bottom: 0px;");
 
                 //Address Column
                 var addrCol = $("<div>");
@@ -143,28 +175,33 @@ function CreateEventTable() {
                 venueAddrDiv.text(venueNode.address.line1 + " " + venueNode.city.name + ", " + venueNode.state.stateCode);
                 addrCol.append(venueAddrDiv);
 
-
-                //Add to the row
-                addrCol.append(venueNameDiv);
-                addrCol.append(venueAddrDiv);
                 row.append(addrCol);
 
-
-
                 //Buy Button
+                var btnDiv = $("<div>");
+                btnDiv.addClass("buyBtn");
+
                 var buyNowLink = $("<a>");
                 buyNowLink.attr("href", evt.url);
 
                 var buyNowBtn = $("<button>");
                 buyNowBtn.text("Buy Now");
-                buyNowBtn.addClass("buyElement right floated ui primary button");
+                buyNowBtn.addClass("right floated ui primary button");
 
                 buyNowLink.append(buyNowBtn);
-                row.append(buyNowLink);
+                btnDiv.append(buyNowLink);
 
+                row.append(btnDiv);
                 evtGrid.append(row);
 
+                //Record Divider
+                var dividerDiv = $("<div>");
+                dividerDiv.addClass("ui divider");
+                evtGrid.append(dividerDiv);
+
+
             });
+
             grabWeather(lat, lng);
 
         })
@@ -205,24 +242,16 @@ function CreateTicketMasterURI(lat, lng) {
     var classificationId = "&classificationId=KZFzniwnSyZfZ7v7nJ"; //""&keyword=tool";
 
     URI = url + latLon + dateRange + rad + unit + classificationId + orderBy;
-
+    //   console.log(URI);
     return URI;
 
 }
-
-
-
-
-
 
 
 // Create a call for the Weather from the WeatherBit.IO
 function grabWeather(lat, lng) {
 
     var weatherAPIKey = "3b00f1a6bf12472594d84b96c2fbee05";
-    //35.308377899999996&lon=-80.73251789999999
-    // var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=7&units=I&key=" + weatherAPIKey;
-
     var weatherURL = "https://api.weatherbit.io/v2.0/forecast/daily?lat=" + lat + "&lon=" + lng + "&days=" + _Days + "&units=I&key=" + weatherAPIKey;
 
 
@@ -236,26 +265,17 @@ function grabWeather(lat, lng) {
         $(".weatherElement").each(function(index, element) {
             var weatherIndex = $(element).attr("weatherIDX");
 
-            var weatherDiv = $("<div>");
+            var weatherDiv = $("<figure>");
             weatherDiv.addClass("weatherCell");
 
-            // var weatherImageDiv = $("<div>");
-            //  var weatherCondDiv = $("<div>");
-            var iconImage = weatherData[weatherIndex].weather.icon;
-
-            var iconImg = $("<img>").attr("src", "assets/img/icons/" + iconImage + ".png");
+            var imgFile = weatherData[weatherIndex].weather.icon;
+            var iconImg = $("<img>").attr("src", "assets/img/icons/" + imgFile + ".png");
             iconImg.addClass("weatherImage");
             weatherDiv.append(iconImg);
 
-            var weatherCondDiv = $("<br>");
+            var weatherCondDiv = $("<figcaption>");
             weatherCondDiv.html(weatherData[weatherIndex].weather.description + " " + weatherData[weatherIndex].temp + " &#8457;");
             weatherDiv.append(weatherCondDiv);
-
-            // weatherImageDiv.append(iconImg);
-            //  weatherDiv.append(weatherImageDiv);
-            // weatherDiv.append()
-
-
 
             $(element).append(weatherDiv);
         });
