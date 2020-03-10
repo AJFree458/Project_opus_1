@@ -81,6 +81,7 @@ function CreateEventTable() {
                 var row = $("<div>");
                 row.addClass("row left floated");
 
+
                 // ========================
                 // Start row 1 column 1
                 // ========================
@@ -121,14 +122,17 @@ function CreateEventTable() {
                 evtDateCell.text(EventDate(evt.dates.start.localDate, evt.dates.start.localTime));
                 infoHdrRow.append(evtDateCell);
 
+
                 //Weather Column Row1, col-2
                 var weatherCell = $("<div>");
                 weatherCell.addClass("weatherElement weatherCell right five wide column");
                 weatherCell.attr("weatherIDX", daysFromToday);
                 infoHdrRow.append(weatherCell);
 
+
                 detailGrid.append(infoHdrRow);
                 infoCol.append(detailGrid);
+
 
 
                 var infoDetailsRow = $("<div>");
